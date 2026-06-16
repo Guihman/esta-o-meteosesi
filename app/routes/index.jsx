@@ -1,80 +1,57 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import Cadastro from '../pages/cadastro';
-import Dashboard from '../pages/dashboard';
+//import das telas
 import Login from '../pages/login';
 import Registro from '../pages/registro';
+import Cadastro from '../pages/cadastro';
+import Dashboard from '../pages/dashboard';
+import Relatorio from '../pages/relatorio';
 
+//import dos navegadores
 const Stack = createStackNavigator();
 const Draw = createDrawerNavigator();
 
+
 function MenuSuperior() {
-  return (
-    <Draw.Navigator
-      initialRouteName="Dashboard"
-      screenOptions={({ route }) => ({
-        headerShown: true,
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#081F34',
-          borderBottomWidth: 0,
-          elevation: 0,
-          shadowOpacity: 0,
-        },
-        headerTintColor: '#E0F2FE',
-        headerTitleStyle: {
-          fontWeight: '900',
-        },
-        drawerStyle: {
-          backgroundColor: '#021221',
-          width: 280,
-        },
-        drawerActiveTintColor: '#38BDF8',
-        drawerInactiveTintColor: '#93C5FD',
-        drawerActiveBackgroundColor: 'rgba(56, 189, 248, 0.14)',
-        drawerLabelStyle: {
-          fontSize: 15,
-          fontWeight: '800',
-        },
-        drawerIcon: ({ color, size, focused }) => {
-          let nomeIcone = focused ? 'grid' : 'grid-outline';
+    return (
+        <Draw.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: true,
+                drawerActiveTintColor: '#FF914D',
+                drawerInactiveTintColor: '#777',
+                drawerIcon: ({ color, size, focused }) => {
+                    let nomeIcone = 'menu-outline';
 
-          if (route.name === 'Dashboard') {
-            nomeIcone = focused ? 'home' : 'home-outline';
-          }
+                    if (route.name === 'Home') {
+                        nomeIcone = focused ? 'audit' : 'audit-outline';
+                    }
 
-          if (route.name === 'Nova medição') {
-            nomeIcone = focused ? 'add-circle' : 'add-circle-outline';
-          }
-
-          return <Ionicons name={nomeIcone} size={size} color={color} />;
-        },
-      })}
-    >
-      <Draw.Screen
-        name="Dashboard"
-        component={Dashboard}
-        options={{ title: 'MeteoSesi' }}
-      />
-
-      <Draw.Screen
-        name="Nova medição"
-        component={Cadastro}
-        options={{ title: 'Nova medição' }}
-      />
-    </Draw.Navigator>
-  );
+                    if (route.name === 'Registro') {
+                        nomeIcone = focused ? 'file-add' : 'file-add-outline'
+                    }
+                    if (route.name === 'Relatório') {
+                        nomeIcone = focused ? 'receipt' : 'receipt-outline'
+                    }
+                    return <Ionicons name={nomeIcone} size={size} color={color} />
+                }
+            })}
+        >
+            <Draw.Screen name='Home' component={Dashboard} options={{headerTitleAlign: 'center'}} />
+            <Draw.Screen name='Cadastro' component={Cadastro} />
+            <Draw.Screen name='Relatorio' component={Relatorio} />
+        </Draw.Navigator>
+    )
 }
 
 export default function Rotas() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="Registro" component={Registro} options={{ headerShown: false }} />
-      <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
-      <Stack.Screen name="Principal" component={MenuSuperior} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name='Registro' component={Registro} options={{ title: 'Cadastro de usuário', headerShown: false }} />
+            <Stack.Screen name='Cadastro' component={Cadastro} options={{ title: 'Cadastro de usuário', headerShown: false }} />
+            <Stack.Screen name='Principal' component={MenuSuperior} options={{ headerShown: false , title: ''}} />
+        </Stack.Navigator>
+    )
 }
